@@ -62,6 +62,17 @@
 
       # CMD_DURATION is unset on first prompt; tide's cmd_duration item needs it.
       set -g CMD_DURATION 0
+
+      # Load personal SSH key into the agent once per login session.
+      set -l _ssh_key $HOME/.ssh/id_rsa
+      if set -q SSH_AUTH_SOCK
+        and test -f $_ssh_key
+        set -l _ssh_fp (ssh-keygen -lf $_ssh_key | string split -f 2 ' ')
+        if test -n "$_ssh_fp"
+          and not ssh-add -l 2>/dev/null | string match -q "*$_ssh_fp*"
+          ssh-add --quiet $_ssh_key
+        end
+      end
     '';
   };
 }

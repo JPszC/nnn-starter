@@ -7,7 +7,7 @@
   # (see modules/home/neovim.nix); Zed is what opens when you double-click a
   # text file in Nautilus or pick "open with default" from anywhere else.
   #
-  # Stylix's zed target syncs our Maple Mono / Noto fonts into Zed. For the
+  # Stylix's zed target syncs our JetBrains Mono / Noto fonts into Zed. For the
   # colors we don't use Stylix's mechanically-generated "Base16 Kanagawa" — its
   # base16 mapping makes keywords a harsh red and its template emits an
   # appearance Zed rejects. Instead we use the hand-tuned "Kanagawa Wave" from

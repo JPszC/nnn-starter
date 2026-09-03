@@ -33,11 +33,10 @@
       gaps = 8;
       center-focused-column = "always";
       preset-column-widths = [
-        {proportion = 1.0 / 3.0;}
+        {proportion = 0.98;}
         {proportion = 1.0 / 2.0;}
-        {proportion = 2.0 / 3.0;}
       ];
-      default-column-width.proportion = 1.0 / 2.0;
+      default-column-width.proportion = 0.98;
       # Stylix disables the focus-ring and themes the border instead, then we
       # disable that border below — so re-enable the ring explicitly here or
       # nothing gets drawn. Thin, soft Kanagawa foreground on the focused

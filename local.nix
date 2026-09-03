@@ -22,4 +22,10 @@
 
   # Primary display scale (modules/home/niri.nix, output eDP-1).
   monitorScale = 1.0;
+
+  # Pangolin CLI machine client (modules/nixos/pangolin.nix).
+  # Credentials are NOT here — they live in secrets/pangolin.env.age (agenix).
+  # Set enable = true only after that file exists and secrets.nix has your
+  # host SSH pubkey.
+  pangolin.enable = true;
 }

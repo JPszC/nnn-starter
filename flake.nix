@@ -47,6 +47,15 @@
       url = "github:AprilNEA/OpenLogi";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Age-encrypted secrets in git; decrypted at activation with the SSH host key.
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # We only use the NixOS module + Linux CLI; skip unused nested inputs.
+      inputs.darwin.follows = "";
+      inputs.home-manager.follows = "";
+    };
   };
 
   outputs = {
@@ -56,6 +65,7 @@
     noctalia,
     stylix,
     openlogi,
+    agenix,
     ...
   } @ inputs: let
     # The platform the NNN machine runs on.
@@ -85,6 +95,7 @@
         noctalia.nixosModules.default
         stylix.nixosModules.stylix
         openlogi.nixosModules.default
+        agenix.nixosModules.default
         home-manager.nixosModules.home-manager
 
         ./hosts/nnn
@@ -129,6 +140,7 @@
           deadnix
           nh
           nix-output-monitor
+          agenix.packages.${system}.default
         ];
       };
     });
