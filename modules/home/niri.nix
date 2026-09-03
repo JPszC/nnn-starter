@@ -8,18 +8,18 @@
     input = {
       keyboard.xkb = {
         layout = "us";
-        options = "grp:alt_shift_toggle"; # Alt+Shift switches US <-> Russian
+        options = "grp:alt_shift_toggle"; # Alt+Shift switches
       };
       # Each window remembers its own layout ("global" = one shared layout).
       keyboard.track-layout = "window";
       touchpad = {
         tap = true;
-        natural-scroll = true;
+        natural-scroll = false;
         dwt = true; # disable-while-typing
       };
       mouse = {
         accel-profile = "flat";
-        natural-scroll = true; # match macOS-style scrolling (also set on touchpad)
+        natural-scroll = false; # match macOS-style scrolling (also set on touchpad)
       };
       focus-follows-mouse.enable = true;
     };
@@ -30,8 +30,8 @@
     };
 
     layout = {
-      gaps = 12;
-      center-focused-column = "never";
+      gaps = 8;
+      center-focused-column = "always";
       preset-column-widths = [
         {proportion = 1.0 / 3.0;}
         {proportion = 1.0 / 2.0;}

@@ -1,4 +1,8 @@
-{...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   # OpenLogi — local-first Logitech Options+ replacement (HID++ buttons, DPI,
   # SmartShift). No account, no telemetry. Upstream flake ships the package,
   # udev rules, and a user agent; we only flip the switch.
@@ -14,5 +18,11 @@
     enable = true;
     # Agent starts with the graphical (niri) session.
     launchAtLogin = true;
+    # rustc 1.98 / LLVM 22 can SIGSEGV during release LTO on deps like moxcms.
+    package = inputs.openlogi.packages.${pkgs.system}.openlogi.overrideAttrs (old: {
+      RUSTFLAGS =
+        (old.RUSTFLAGS or "")
+        + " -C lto=off -Clinker-plugin-lto=off -Ccodegen-units=16";
+    });
   };
 }
