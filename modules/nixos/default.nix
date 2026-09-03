@@ -12,6 +12,7 @@
     ./stylix.nix
     ./users.nix
     ./docker.nix # optional: comment out if you don't want containers
+    ./openlogi.nix # optional: comment out if you have no Logitech devices
   ];
 
   # Flakes + the modern nix CLI.

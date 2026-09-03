@@ -37,6 +37,16 @@
       # Its home-manager module reuses HM's firefox module, so share ours.
       inputs.home-manager.follows = "home-manager";
     };
+
+    # OpenLogi (Logitech HID++ companion). Not reliably in nixpkgs on Linux yet,
+    # so we take the upstream flake's package + NixOS module (udev + agent).
+    # Follow our nixpkgs so the GUI links against the same Wayland/Vulkan as
+    # the rest of the desktop; rust-overlay (a nested input) still supplies a
+    # new-enough rustc. No binary cache — first switch compiles it from source.
+    openlogi = {
+      url = "github:AprilNEA/OpenLogi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -45,6 +55,7 @@
     niri,
     noctalia,
     stylix,
+    openlogi,
     ...
   } @ inputs: let
     # The platform the NNN machine runs on.
@@ -73,6 +84,7 @@
         niri.nixosModules.niri
         noctalia.nixosModules.default
         stylix.nixosModules.stylix
+        openlogi.nixosModules.default
         home-manager.nixosModules.home-manager
 
         ./hosts/nnn

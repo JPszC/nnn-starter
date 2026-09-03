@@ -20,9 +20,11 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 | Terminal     | [Ghostty](https://ghostty.org) |
 | Shell + prompt | Fish + [Tide](https://github.com/IlanCosman/tide) (autosuggestions, syntax highlighting, fzf, zoxide) |
 | Editor (GUI) | [Zed](https://zed.dev) — themed via Stylix; default handler for text/source files |
+| Editor (AI)  | [Cursor](https://cursor.com) — VS Code-based; FHS wrap so extensions work on NixOS |
 | Editor (terminal) | Neovim, preconfigured (LSP, treesitter, telescope, completion); the `$EDITOR` |
 | Browser      | [Zen](https://zen-browser.app) (beta channel, via the community flake) |
 | File manager | [Nautilus](https://apps.gnome.org/Nautilus/) (GNOME Files) |
+| Logitech     | [OpenLogi](https://github.com/AprilNEA/OpenLogi) — HID++ buttons, DPI, SmartShift; no account |
 | Font         | Maple Mono NF |
 | Login        | greetd + tuigreet → niri session |
 
@@ -80,8 +82,8 @@ values never get staged or committed.
 flake.nix              # inputs + the single `nixosConfigurations.nnn`
 local.nix              # your machine-local identity (skip-worktree)
 hosts/nnn/             # host: hardware + locale/timezone
-modules/nixos/         # system: boot, audio, niri, noctalia, stylix, users…
-modules/home/          # user: fish, ghostty, neovim, niri keybinds, cli tools…
+modules/nixos/         # system: boot, audio, niri, noctalia, stylix, users, OpenLogi…
+modules/home/          # user: fish, ghostty, neovim, zed, cursor, niri keybinds, cli tools…
 themes/kanagawa.yaml   # vendored base16 palette (Stylix source of truth)
 ```
 
@@ -187,3 +189,6 @@ old series lives on `legacy-v4`. niri uses niri-flake's prebuilt
 The two caches are trusted in [`modules/nixos/default.nix`](modules/nixos/default.nix)
 so your machine pulls binaries too. Neither input may `follows` our `nixpkgs` —
 that would rebuild them against a different nixpkgs and miss the cache.
+
+OpenLogi has no cache; the first `switch` compiles it (Rust + GPUI). Later
+rebuilds are incremental unless the input moved.

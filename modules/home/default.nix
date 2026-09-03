@@ -6,6 +6,7 @@
     ./ghostty.nix
     ./neovim.nix
     ./zed.nix
+    ./cursor.nix
     ./gtk.nix
     ./niri.nix
     ./noctalia.nix
