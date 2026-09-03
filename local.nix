@@ -10,7 +10,7 @@
 {
   # Login user and machine identity.
   username = "jpszc";
-  hostName = "jpszc";
+  hostName = "iapetus";
   fullName = "JPszC"; # shown as the user account description
 
   # Locale / location.
