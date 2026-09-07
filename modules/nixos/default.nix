@@ -15,6 +15,7 @@
     ./openlogi.nix # optional: comment out if you have no Logitech devices
     ./agenix.nix # age-encrypted secrets (SSH host key decrypts at activation)
     ./pangolin.nix # Pangolin CLI client; gated by local.pangolin.enable
+    ./vopono.nix # root daemon for per-app VPN namespaces (`vopono exec`)
   ];
 
   # Flakes + the modern nix CLI.

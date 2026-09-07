@@ -12,6 +12,8 @@
     ./noctalia.nix
     ./direnv.nix
     ./claude-code.nix
+    ./codex.nix
+    ./t3code.nix
     ./apps.nix
     ./media.nix
     ./discord.nix

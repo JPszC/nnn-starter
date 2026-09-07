@@ -2,7 +2,24 @@
   pkgs,
   username,
   ...
-}: {
+}: let
+  # Runs a command inside a netns using the age-decrypted Proton WireGuard
+  # config (`secrets/proton-vpn.conf.age` → /run/agenix/proton-vpn.conf).
+  vopono-proton = pkgs.writeShellApplication {
+    name = "vopono-proton";
+    runtimeInputs = [pkgs.vopono];
+    text = ''
+      config=/run/agenix/proton-vpn.conf
+      if [[ ! -r "$config" ]]; then
+        echo "vopono-proton: no decrypted Proton WireGuard config at $config" >&2
+        echo "Download a .conf from https://account.protonvpn.com → Downloads → WireGuard," >&2
+        echo "then: cd secrets && agenix -e proton-vpn.conf.age" >&2
+        exit 1
+      fi
+      exec vopono exec --provider custom --custom "$config" --protocol wireguard "$@"
+    '';
+  };
+in {
   # ── Tools with a home-manager program module ──────────────────────────────
   # Using programs.* (rather than raw packages) gets us shell integration and
   # Stylix theming for free.
@@ -61,8 +78,11 @@
     nix-output-monitor # pretty build output (`nom`)
     alejandra # formatter
     devenv # per-project dev environments (`use devenv` in .envrc)
-    protonvpn-gui
+    proton-vpn
     wireguard-tools
+    vopono # run a single app through a VPN netns (`vopono exec`)
+    vopono-proton # `vopono-proton firefox` — uses the age-decrypted Proton config
+    openvpn # vopono OpenVPN backends (Proton/custom); WireGuard uses wireguard-tools
   ];
 
   # nh is a nicer frontend for nixos-rebuild + garbage collection. Point it at

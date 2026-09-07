@@ -16,11 +16,17 @@ in
       file = ../../secrets/pangolin.env.age;
     };
 
+    # On PATH so you can run `pangolin status`, `pangolin ssh`, `pangolin list aliases`.
+    environment.systemPackages = [pkgs.pangolin-cli];
+
     # Docs: https://docs.pangolin.net/manage/clients/install-client
     # Env file must define:
     #   PANGOLIN_ENDPOINT=https://…
     #   CLIENT_ID=…
     #   CLIENT_SECRET=…
+    # Do not pass --org: that is a user-session flag. On olm/wg/register the
+    # server then requires a user ID, which machine clients do not have
+    # (USER_ID_NOT_FOUND). The machine's org is already bound in the dashboard.
     systemd.services.pangolin = {
       description = "Pangolin CLI VPN client";
       after = [

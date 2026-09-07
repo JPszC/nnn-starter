@@ -17,7 +17,7 @@
 
   # CLI for `agenix -e secrets/….age` (run from the secrets/ directory).
   environment.systemPackages = [
-    inputs.agenix.packages.${pkgs.system}.default
+    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   # Explicit so it's obvious what decrypts secrets on this box.

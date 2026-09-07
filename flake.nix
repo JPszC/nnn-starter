@@ -86,8 +86,10 @@
     ];
     forAllSystems = nixpkgs.lib.genAttrs devSystems;
     pkgsFor = system: nixpkgs.legacyPackages.${system};
-  in {
-    nixosConfigurations.nnn = nixpkgs.lib.nixosSystem {
+
+    # One system, two flake attrs: `nnn` stays the stable name for docs/CI,
+    # and `local.hostName` is what `nh os *` looks up (current hostname).
+    nixosSystem = nixpkgs.lib.nixosSystem {
       system = hostSystem;
       specialArgs = {inherit inputs username local;};
       modules = [
@@ -127,6 +129,12 @@
         }
       ];
     };
+  in {
+    nixosConfigurations =
+      {nnn = nixosSystem;}
+      // nixpkgs.lib.optionalAttrs (local.hostName != "nnn") {
+        ${local.hostName} = nixosSystem;
+      };
 
     # `nix fmt`
     formatter = forAllSystems (system: (pkgsFor system).alejandra);
