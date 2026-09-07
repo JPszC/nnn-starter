@@ -13,11 +13,11 @@ in {
   # The daemon owns netns / firewall / tun setup and listens on
   # /run/vopono.sock, so `vopono exec` as your user doesn't need sudo.
   # Docs: https://github.com/jamesmcm/vopono/blob/master/USERGUIDE.md
+  # Decrypts to /run/agenix/proton-vpn (the attr name). Don't set `path`
+  # under /run/agenix to a different filename: agenix writes that extra
+  # symlink into the *previous* generation, then deletes it on switch.
   age.secrets.proton-vpn = lib.mkIf hasProtonConfig {
     file = protonConfig;
-    # Named path so `vopono-proton` / `--custom` can find it. owner=user +
-    # /run/agenix mode 0751 means you can open the file without listing the dir.
-    path = "/run/agenix/proton-vpn.conf";
     owner = username;
     mode = "0400";
   };

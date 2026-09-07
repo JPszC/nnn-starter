@@ -70,6 +70,7 @@
         "launcher"
       ];
       "Mod+B".action.spawn = "zen-beta"; # browser
+      "Mod+C".action.spawn = "vopono-proton cursor"; # browser
       "Mod+E".action.spawn = "nautilus"; # file manager
 
       # Window management

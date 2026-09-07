@@ -4,16 +4,16 @@
   ...
 }: let
   # Runs a command inside a netns using the age-decrypted Proton WireGuard
-  # config (`secrets/proton-vpn.conf.age` → /run/agenix/proton-vpn.conf).
+  # config (`secrets/proton-vpn.conf.age` → /run/agenix/proton-vpn).
   vopono-proton = pkgs.writeShellApplication {
     name = "vopono-proton";
     runtimeInputs = [pkgs.vopono];
     text = ''
-      config=/run/agenix/proton-vpn.conf
+      config=/run/agenix/proton-vpn
       if [[ ! -r "$config" ]]; then
         echo "vopono-proton: no decrypted Proton WireGuard config at $config" >&2
         echo "Download a .conf from https://account.protonvpn.com → Downloads → WireGuard," >&2
-        echo "then: cd secrets && agenix -e proton-vpn.conf.age" >&2
+        echo "then: cd secrets && agenix -e proton-vpn.conf.age && nh os switch" >&2
         exit 1
       fi
       exec vopono exec --provider custom --custom "$config" --protocol wireguard "$@"
