@@ -61,6 +61,8 @@
     nix-output-monitor # pretty build output (`nom`)
     alejandra # formatter
     devenv # per-project dev environments (`use devenv` in .envrc)
+    protonvpn-gui
+    wireguard-tools
   ];
 
   # nh is a nicer frontend for nixos-rebuild + garbage collection. Point it at
