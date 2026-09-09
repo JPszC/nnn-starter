@@ -121,10 +121,12 @@ stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml
 
 ## Per-project dev environments
 
-Python 3, pip, and venv are available in the user environment. Create a virtual
-environment with `python3 -m venv .venv` for installing project dependencies.
-For other language toolchains
-and project-specific dependencies, use direnv + flakes per project:
+Python 3, pip, venv, pandas, ipykernel, and openpyxl are available in the user
+environment. Create a virtual environment with `python3 -m venv .venv` for
+installing project dependencies. Use `--system-site-packages` to also access
+the preinstalled packages inside the virtual environment.
+For other language toolchains and project-specific dependencies, use direnv
+and flakes per project:
 
 ```sh
 # in a project repo
