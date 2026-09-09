@@ -8,6 +8,9 @@
   # GUI desktop apps. Browsers and file managers live here rather than in the
   # CLI bundle.
   home.packages = [
+    pkgs.jetbrains.datagrip
+    pkgs.libreoffice-stable
+
     # Nautilus (GNOME Files): a sensible GTK file manager. Pairs with the gvfs
     # service enabled in modules/nixos/desktop.nix for trash + mounting, and
     # backs the browser's "open/save" file picker via the gtk xdg portal.

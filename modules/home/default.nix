@@ -3,7 +3,7 @@
     ./cli.nix
     ./fish.nix
     ./git.nix
-    ./ghostty.nix
+    ./alacritty.nix
     ./neovim.nix
     ./zed.nix
     ./cursor.nix

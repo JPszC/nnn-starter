@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   # One palette to rule them all. Stylix derives colors for niri, noctalia,
-  # ghostty, bat, btop, neovim, GTK/Qt and more from a single base16 scheme.
+  # alacritty, bat, btop, neovim, GTK/Qt and more from a single base16 scheme.
   stylix = {
     enable = true;
     polarity = "dark";

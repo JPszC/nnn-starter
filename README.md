@@ -14,16 +14,19 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 
 | Layer        | Choice |
 |--------------|--------|
+| Kernel       | CachyOS BORE + ThinLTO, `linux-cachyos-bore-lto-x86_64-v3` (requires an x86-64-v3 CPU) |
 | Compositor   | [niri](https://github.com/YaLTeR/niri) (scrollable-tiling Wayland) via [niri-flake](https://github.com/sodiboo/niri-flake) |
 | Shell/UI     | [Noctalia](https://github.com/noctalia-dev/noctalia-shell) **v5** (bar, launcher, notifications, lock, control center) |
 | Theming      | [Stylix](https://github.com/nix-community/stylix) with the **Kanagawa** palette — one scheme themes everything |
-| Terminal     | [Ghostty](https://ghostty.org) |
+| Terminal     | [Alacritty](https://alacritty.org/) |
 | Shell + prompt | Fish + [Tide](https://github.com/IlanCosman/tide) (autosuggestions, syntax highlighting, fzf, zoxide) |
 | Editor (GUI) | [Zed](https://zed.dev) — themed via Stylix; default handler for text/source files |
 | Editor (AI)  | [Cursor](https://cursor.com) — VS Code-based; FHS wrap so extensions work on NixOS |
 | Editor (terminal) | Neovim, preconfigured (LSP, treesitter, telescope, completion); the `$EDITOR` |
 | Browser      | [Zen](https://zen-browser.app) (beta channel, via the community flake) |
 | File manager | [Nautilus](https://apps.gnome.org/Nautilus/) (GNOME Files) |
+| Database IDE | DataGrip (JetBrains) |
+| Office suite | LibreOffice |
 | Logitech     | [OpenLogi](https://github.com/AprilNEA/OpenLogi) — HID++ buttons, DPI, SmartShift; no account |
 | Font         | Maple Mono NF |
 | Login        | greetd + tuigreet → niri session |
@@ -83,7 +86,7 @@ flake.nix              # inputs + the single `nixosConfigurations.nnn`
 local.nix              # your machine-local identity (skip-worktree)
 hosts/nnn/             # host: hardware + locale/timezone
 modules/nixos/         # system: boot, audio, niri, noctalia, stylix, users, OpenLogi…
-modules/home/          # user: fish, ghostty, neovim, zed, cursor, niri keybinds, cli tools…
+modules/home/          # user: fish, alacritty, neovim, zed, cursor, niri keybinds, cli tools…
 themes/kanagawa.yaml   # vendored base16 palette (Stylix source of truth)
 ```
 
@@ -91,7 +94,7 @@ themes/kanagawa.yaml   # vendored base16 palette (Stylix source of truth)
 
 | Keys | Action |
 |------|--------|
-| `Mod`+`Return` | Terminal (ghostty) |
+| `Mod`+`Return` | Terminal (Alacritty) |
 | `Mod`+`Space` | Noctalia launcher |
 | `Mod`+`B` | Browser (Zen) |
 | `Mod`+`E` | File manager (Nautilus) |
@@ -118,8 +121,10 @@ stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml
 
 ## Per-project dev environments
 
-This starter deliberately keeps language toolchains **out** of the global
-system. Use direnv + flakes per project instead:
+Python 3, pip, and venv are available in the user environment. Create a virtual
+environment with `python3 -m venv .venv` for installing project dependencies.
+For other language toolchains
+and project-specific dependencies, use direnv + flakes per project:
 
 ```sh
 # in a project repo
@@ -186,9 +191,23 @@ cache hit. It still tracks the **v5 line** (`main`), just slightly behind; the
 old series lives on `legacy-v4`. niri uses niri-flake's prebuilt
 `niri-stable` from `niri.cachix.org` for the same reason.
 
-The two caches are trusted in [`modules/nixos/default.nix`](modules/nixos/default.nix)
+These caches are trusted in [`modules/nixos/default.nix`](modules/nixos/default.nix)
 so your machine pulls binaries too. Neither input may `follows` our `nixpkgs` —
 that would rebuild them against a different nixpkgs and miss the cache.
 
 OpenLogi has no cache; the first `switch` compiles it (Rust + GPUI). Later
 rebuilds are incremental unless the input moved.
+
+The CachyOS kernel uses the [nix-cachyos-kernel](https://github.com/xddxdd/nix-cachyos-kernel)
+`release` branch with its own nixpkgs pin and the maintainer's Lantian cache.
+For the first rebuild, pass the cache explicitly because the new system's Nix
+settings only take effect after activation:
+
+```sh
+sudo nixos-rebuild switch --flake .#nnn \
+  --option extra-substituters https://attic.xuyh0120.win/lantian \
+  --option extra-trusted-public-keys 'lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc='
+```
+
+Reboot after rebuilding to run the new kernel. LibreOffice is available after
+the switch without a reboot.

@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Prebuilt CachyOS kernels. Keep upstream's nixpkgs pin for matching
+    # kernel patches and binary cache hits.
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -58,6 +58,9 @@ in {
 
   # ── Everything else ───────────────────────────────────────────────────────
   home.packages = with pkgs; [
+    # language runtimes
+    (python3.withPackages (ps: [ps.pip])) # venv is included in Python's standard library
+
     # navigation / files
     eza # alternative listing to lsd, handy for `eza --tree`
     yazi # TUI file manager
