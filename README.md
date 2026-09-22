@@ -26,6 +26,7 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 | Browser      | [Zen](https://zen-browser.app) (beta channel, via the community flake) |
 | File manager | [Nautilus](https://apps.gnome.org/Nautilus/) (GNOME Files) |
 | Database IDE | DataGrip (JetBrains) |
+| Git client (GUI) | GitKraken Desktop |
 | Office suite | LibreOffice |
 | Logitech     | [OpenLogi](https://github.com/AprilNEA/OpenLogi) — HID++ buttons, DPI, SmartShift; no account |
 | Font         | Maple Mono NF |

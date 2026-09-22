@@ -12,6 +12,12 @@
   # store paths.
   programs.cursor = {
     enable = true;
-    package = pkgs.code-cursor-fhs;
+    package = pkgs.code-cursor-fhs.overrideAttrs (old: {
+      # /boot can be an autofs mount that bubblewrap cannot bind inside
+      # vopono's namespaces. Cursor doesn't need it in its FHS environment.
+      extraPreBwrapCmds = (old.extraPreBwrapCmds or "") + ''
+        ignored+=(/boot)
+      '';
+    });
   };
 }
