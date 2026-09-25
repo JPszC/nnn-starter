@@ -71,7 +71,7 @@
       ];
       "Mod+B".action.spawn = "zen-beta"; # browser
       "Mod+C".action.spawn = ["vopono-proton" "cursor"]; #
-      "Mod+G".action.spawn = ["vopono-proton" "t3code-desktop"]; #
+      "Mod+G".action.spawn = ["vopono-proton" "orca"]; #
       "Mod+E".action.spawn = "nautilus"; # file manager
 
       # Window management

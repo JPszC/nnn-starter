@@ -45,12 +45,24 @@
     # OpenLogi (Logitech HID++ companion). Not reliably in nixpkgs on Linux yet,
     # so we take the upstream flake's package + NixOS module (udev + agent).
     # Follow our nixpkgs so the GUI links against the same Wayland/Vulkan as
-    # the rest of the desktop; rust-overlay (a nested input) still supplies a
-    # new-enough rustc. No binary cache — first switch compiles it from source.
+    # the rest of the desktop. No binary cache — first switch compiles it
+    # from source. The compiler itself comes from rust-overlay (see
+    # modules/nixos/openlogi.nix); upstream's nested pin is still 1.98.0.
     openlogi = {
       url = "github:AprilNEA/OpenLogi";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Official rustup binaries. Used for OpenLogi's rustc 1.98.1 — nixpkgs'
+    # rustc links a different LLVM that SIGSEGVs in the assembler.
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # OMP (oh-my-pi) coding-agent CLI. Do not follow our nixpkgs: the package
+    # is built against this flake's own pin (Bun + Rust natives).
+    omp.url = "github:can1357/oh-my-pi";
 
     # Age-encrypted secrets in git; decrypted at activation with the SSH host key.
     agenix = {

@@ -36,7 +36,8 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 `lsd` · `fzf` · `bat` · `btop` · `ripgrep` · `fd` · `zoxide` · `eza` · `yazi` ·
 `dust` · `duf` · `procs` · `bandwhich` · `gping` · `zellij` ·
 `tealdeer` · `jq` · `yq` · `lazygit` · `delta` · `gh` · `direnv` + `nix-direnv` ·
-`nh` · `nom` · `claude` ([Claude Code](https://github.com/anthropics/claude-code)).
+`nh` · `nom` · `claude` ([Claude Code](https://github.com/anthropics/claude-code)) ·
+`codex` · `omp` ([oh-my-pi](https://github.com/can1357/oh-my-pi)).
 Old names are aliased to the new tools (`ls`→`lsd`, `cat`→`bat`,
 `cd`→`zoxide`, `top`→`btop`, …).
 

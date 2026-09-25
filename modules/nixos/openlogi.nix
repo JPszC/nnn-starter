@@ -4,12 +4,42 @@
   lib,
   ...
 }: let
-  # rustc 1.98 / LLVM 22 can SIGSEGV during release LTO on deps like moxcms.
-  openlogiUnwrapped = inputs.openlogi.packages.${pkgs.stdenv.hostPlatform.system}.openlogi.overrideAttrs (old: {
-    RUSTFLAGS =
-      (old.RUSTFLAGS or "")
-      + " -C lto=off -Clinker-plugin-lto=off -Ccodegen-units=16";
-  });
+  # Upstream pins rust-overlay's "stable.latest", which is still rustc 1.98.0.
+  # That release miscompiles trait-object vtables (fixed in 1.98.1) and this
+  # build also dies in two other 1.98.0 bugs: an ICE while type-checking
+  # `AsyncHidChannel::read_report` (the patch rewrites that await), and a
+  # SIGSEGV in LLVM InstCombine.
+  #
+  # Nixpkgs' rustc 1.98.1 has the vtable fix, but it links nixpkgs LLVM 21.1.8,
+  # which SIGSEGVs in MCAssembler::relaxInstruction
+  # (MCExpr::evaluateAsRelocatableImpl) while emitting proc-macro-crate. The
+  # official 1.98.1 binary ships the LLVM that compiler was built against.
+  #
+  # LLVM 22 in the official 1.98.1 binary also SIGSEGVs in GlobalOpt at
+  # opt-level 3 and in the inliner at opt-level 1 while compiling dependencies.
+  # Disable LLVM optimization for this package. Cargo's profile settings take
+  # precedence over RUSTFLAGS, so set them through profile environment vars.
+  rustToolchain =
+    (inputs.rust-overlay.lib.mkRustBin {} pkgs).stable."1.98.1".minimal;
+  rustPlatform = pkgs.makeRustPlatform {
+    cargo = rustToolchain;
+    rustc = rustToolchain;
+  };
+
+  openlogiUnwrapped =
+    (inputs.openlogi.packages.${pkgs.stdenv.hostPlatform.system}.openlogi.override {
+      inherit rustPlatform;
+    }).overrideAttrs
+    (old: {
+      env =
+        (old.env or {})
+        // {
+          CARGO_PROFILE_RELEASE_LTO = "off";
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS = "16";
+          CARGO_PROFILE_RELEASE_OPT_LEVEL = "0";
+        };
+      patches = (old.patches or []) ++ [./openlogi-read-report.patch];
+    });
 
   # GPUI dlopens Wayland / Vulkan / libGL at runtime. Upstream only patchelf's
   # openlogi-desktop, so the Actions Ring overlay (and a PATH-spawned GUI)

@@ -13,7 +13,8 @@
     ./direnv.nix
     ./claude-code.nix
     ./codex.nix
-    ./t3code.nix
+    ./omp.nix
+    ./orca.nix
     ./apps.nix
     ./media.nix
     ./discord.nix

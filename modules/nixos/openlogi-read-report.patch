@@ -1,0 +1,31 @@
+--- a/crates/openlogi-hid/src/transport.rs
++++ b/crates/openlogi-hid/src/transport.rs
+@@ -693,10 +693,13 @@
+     }
+ 
+     async fn read_report(&self, buf: &mut [u8]) -> Result<usize, Box<dyn Error + Send + Sync>> {
+-        let result = {
+-            let mut r = self.reader.lock().await;
+-            r.read_input_report(buf).await
+-        };
++        // rustc 1.98 drops the type of an await-block during writeback when
++        // the block's tail is `.await`, and again when `pending().await` is
++        // the diverging value of a match arm. Bind the read, then park in a
++        // loop whose await has type `()`.
++        let mut r = self.reader.lock().await;
++        let result = r.read_input_report(buf).await;
++        drop(r);
+         match result {
+             Ok(n) => Ok(n),
+             // The device disconnected — there will never be another input
+@@ -708,7 +711,9 @@
+             // the channel's close signal, which tears the read down on drop.
+             Err(async_hid::HidError::Disconnected) => {
+                 self.mark_disconnected();
+-                std::future::pending().await
++                loop {
++                    std::future::pending::<()>().await;
++                }
+             }
+             Err(e) => Err(e.into()),
+         }
