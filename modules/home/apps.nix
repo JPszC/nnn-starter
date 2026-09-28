@@ -8,7 +8,6 @@
   # GUI desktop apps. Browsers and file managers live here rather than in the
   # CLI bundle.
   home.packages = [
-    pkgs.gitkraken
     pkgs.jetbrains.datagrip
     pkgs.libreoffice-stable
 
