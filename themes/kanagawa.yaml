@@ -1,8 +1,9 @@
 scheme: "Kanagawa"
 author: "Tommaso Laurenzi (https://github.com/rebelot/kanagawa.nvim)"
-base00: "1f1f28"
-base01: "16161d"
-base02: "223249"
+# Backgrounds are black for the VA panel. Accents and foregrounds stay Kanagawa.
+base00: "000000" # default background
+base01: "0a0a0a" # bars, gutters, raised surfaces
+base02: "141414" # selection
 base03: "54546d"
 base04: "727169"
 base05: "dcd7ba"

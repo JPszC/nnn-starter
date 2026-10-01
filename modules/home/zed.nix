@@ -25,9 +25,23 @@
     ];
 
     userSettings = {
-      # Hand-tuned Kanagawa from the extension above. mkForce because the Stylix
-      # zed target also sets `theme` (to its harsh Base16 build).
-      theme = lib.mkForce "Kanagawa Wave";
+      # Dragon is the black Kanagawa. mkForce because the Stylix zed target
+      # also sets `theme` (to its harsh Base16 build). Background overrides
+      # pull the remaining gray surfaces to black.
+      theme = lib.mkForce "Kanagawa Dragon";
+      experimental.theme_overrides = {
+        "background" = "#000000";
+        "editor.background" = "#000000";
+        "editor.gutter.background" = "#000000";
+        "elevated_surface.background" = "#0a0a0a";
+        "surface.background" = "#000000";
+        "panel.background" = "#000000";
+        "title_bar.background" = "#000000";
+        "status_bar.background" = "#000000";
+        "tab_bar.background" = "#000000";
+        "tab.active_background" = "#0a0a0a";
+        "tab.inactive_background" = "#000000";
+      };
 
       # File-type icons from the catppuccin-icons extension above.
       icon_theme = "Catppuccin Frappé";

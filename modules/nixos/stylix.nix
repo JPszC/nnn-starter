@@ -10,17 +10,19 @@
     # instead: stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
     base16Scheme = ../../themes/kanagawa.yaml;
 
-    # "Static mind, like the sea" (静心如海) — a meditating pepe before Hokusai's
-    # Great Wave off Kanagawa, vendored in-repo (pngquant-optimized).
-    image = ../../themes/wallpaper.png;
+    # Native 3840×2160. The previous wallpaper is 1672×941, and scaling that
+    # up to this panel softens the whole desktop.
+    image = ../../themes/wallhaven-e82kv8_3840x2160.png;
 
-    # A hint of terminal transparency for that layered desktop look.
-    opacity.terminal = 0.95;
+    # Solid black. At 0.95 the wallpaper shows through and the VA panel
+    # reads it as gray.
+    opacity.terminal = 1.0;
 
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";
-      size = 24;
+      # Logical px. At the 1.5 output scale this is a 48 px cursor on the 4K panel.
+      size = 32;
     };
 
     fonts = {

@@ -20,8 +20,20 @@
   gitUserName = "Jaime Pereira";
   gitUserEmail = "JPszC@pm.me";
 
-  # Primary display scale (modules/home/niri.nix, output eDP-1).
-  monitorScale = 1.0;
+  # Samsung ViewFinity S32D70 — 32" 3840×2160 @ 60 Hz on the RTX HDMI port.
+  # Scale 1.5 makes this 139 PPI panel a logical 2560×1440 (~96 DPI).
+  # `name` is the make/model/serial from `niri msg outputs`.
+  # `renderDevice` is the DRM node of the GPU that owns that HDMI port
+  # (`/dev/dri/by-path/`); niri must render there or every frame is copied
+  # across from the Intel iGPU and animations stutter.
+  monitor = {
+    name = "Samsung Electric Company LS32D70xE HCNXB01643";
+    scale = 1.5;
+    width = 3840;
+    height = 2160;
+    refresh = 60.000;
+    renderDevice = "/dev/dri/by-path/pci-0000:01:00.0-render";
+  };
 
   # Pangolin CLI machine client (modules/nixos/pangolin.nix).
   # Credentials are NOT here — they live in secrets/pangolin.env.age (agenix).

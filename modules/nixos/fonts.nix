@@ -9,6 +9,17 @@
 
     enableDefaultPackages = true;
 
+    # The panel runs at scale 1.5, so glyphs are resampled. Subpixel (RGB)
+    # antialiasing assumes a 1:1 pixel grid and leaves color fringes after that
+    # resample. Slight grayscale hinting stays sharp without the fringe.
+    fontconfig = {
+      hinting = {
+        enable = true;
+        style = "slight";
+      };
+      subpixel.rgba = "none";
+    };
+
     fontconfig.defaultFonts = {
       monospace = ["JetBrainsMono Nerd Font"];
       sansSerif = ["Noto Sans"];

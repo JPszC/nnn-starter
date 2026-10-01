@@ -1,9 +1,25 @@
-{...}: {
+{lib, ...}: {
   programs.alacritty = {
     enable = true;
 
-    # Font, colors and opacity are supplied by Stylix.
+    # Font and the accent colors come from Stylix. These overrides replace the
+    # gray slots in that palette: base07 is #717c7c, so bold text and bright
+    # white were rendering gray on the black background.
     settings = {
+      colors = {
+        primary = {
+          background = lib.mkForce "#000000";
+          foreground = lib.mkForce "#dcd7ba";
+          bright_foreground = lib.mkForce "#dcd7ba";
+        };
+        normal.black = lib.mkForce "#000000";
+        bright = {
+          black = lib.mkForce "#2a2a32";
+          white = lib.mkForce "#dcd7ba";
+        };
+        cursor.text = lib.mkForce "#000000";
+        selection.background = lib.mkForce "#141414";
+      };
       window = {
         padding = {
           x = 12;

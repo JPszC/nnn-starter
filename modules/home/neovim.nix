@@ -71,8 +71,28 @@
       vim.g.maplocalleader = " "
 
       -- ── Colorscheme ───────────────────────────────────────────────────────
-      require("kanagawa").setup()
-      vim.cmd.colorscheme("kanagawa")
+      -- Dragon is Kanagawa's black variant. The ui backgrounds are pulled to
+      -- pure black so the editor matches the rest of the system on a VA panel.
+      require("kanagawa").setup({
+        theme = "dragon",
+        colors = {
+          theme = {
+            all = {
+              ui = {
+                bg = "#000000",
+                bg_dim = "#000000",
+                bg_gutter = "#000000",
+                bg_m3 = "#050505",
+                bg_m2 = "#0a0a0a",
+                bg_m1 = "#101010",
+                bg_p1 = "#141414",
+                bg_p2 = "#1a1a1a",
+              },
+            },
+          },
+        },
+      })
+      vim.cmd.colorscheme("kanagawa-dragon")
 
       local o = vim.opt
       o.number = true

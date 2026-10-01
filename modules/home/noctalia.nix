@@ -3,6 +3,8 @@
   inputs,
   ...
 }: {
+  disabledModules = ["programs/noctalia"];
+
   # The Noctalia desktop shell: bar, launcher, notifications, control center,
   # lock screen and wallpaper, all in one. Colors follow Stylix.
   programs.noctalia = {
