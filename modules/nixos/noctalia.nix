@@ -10,7 +10,9 @@
     enable = true;
     recommendedServices.enable = true;
     # Use upstream's prebuilt package straight from noctalia.cachix.org instead
-    # of rebuilding the (large, ~hour) C++ tree against our nixpkgs.
-    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    # of rebuilding the (large, ~hour) C++ tree against our nixpkgs —
+    # re-linked onto the system glibc so the lock screen can load the
+    # system's PAM modules (see ../noctalia-package.nix for why).
+    package = import ../noctalia-package.nix {inherit pkgs inputs;};
   };
 }

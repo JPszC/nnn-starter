@@ -1,6 +1,32 @@
-{local, ...}: {
+{
+  local,
+  pkgs,
+  ...
+}: {
+  # OpenPGP signing for commits and tags. Keys stay in ~/.gnupg (mutable);
+  # generate one with `gpg --full-generate-key` using gitUserEmail.
+  programs.gpg.enable = true;
+
+  services.gpg-agent = {
+    enable = true;
+    # pinentry-qt is Qt 6 + Qt Wayland, same toolkit as Noctalia, and Stylix
+    # themes Qt. The package's default program is the `pinentry` dispatcher,
+    # which only auto-picks Qt under KDE and otherwise falls back to curses.
+    pinentry.package = pkgs.pinentry-qt;
+    pinentry.program = "pinentry-qt";
+    # Wayland cannot do an X11-style keyboard grab; leaving it on keeps the
+    # prompt from appearing.
+    grabKeyboardAndMouse = false;
+  };
+
   programs.git = {
     enable = true;
+
+    signing = {
+      format = "openpgp";
+      key = local.gitSigningKey;
+      signByDefault = true;
+    };
 
     settings = {
       # ⇩ Identity comes from local.nix.

@@ -10,8 +10,11 @@
   programs.noctalia = {
     enable = true;
 
-    # Prebuilt package from noctalia.cachix.org (see modules/nixos/noctalia.nix).
-    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    # Prebuilt package from noctalia.cachix.org (see
+    # modules/nixos/noctalia.nix), re-linked onto the system glibc so the
+    # lock screen can load the system's PAM modules (see
+    # ../noctalia-package.nix for why).
+    package = import ../noctalia-package.nix {inherit pkgs inputs;};
 
     # Run as a systemd user service tied to the graphical (niri) session so it
     # starts and stops with your login.

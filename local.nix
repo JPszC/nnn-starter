@@ -19,6 +19,7 @@
   # Git identity (modules/home/git.nix).
   gitUserName = "Jaime Pereira";
   gitUserEmail = "JPszC@pm.me";
+  gitSigningKey = "642406F6C6F65A79!";
 
   # Samsung ViewFinity S32D70 — 32" 3840×2160 @ 60 Hz on the RTX HDMI port.
   # Scale 1.5 makes this 139 PPI panel a logical 2560×1440 (~96 DPI).
