@@ -1,5 +1,6 @@
 {
   local,
+  lib,
   pkgs,
   ...
 }: {
@@ -18,6 +19,12 @@
     # prompt from appearing.
     grabKeyboardAndMouse = false;
   };
+
+  # The agent reads pinentry-program once, at start. Switching only rewrites
+  # gpg-agent.conf, so the already running agent keeps calling the old binary.
+  home.activation.reloadGpgAgent = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run ${lib.getExe' pkgs.gnupg "gpgconf"} --kill gpg-agent || true
+  '';
 
   programs.git = {
     enable = true;

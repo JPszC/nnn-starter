@@ -22,7 +22,6 @@
       nixd # nix LSP (alt, richer)
       pyright
       rust-analyzer
-      typescript-language-server
       svelte-language-server # svelte / sveltekit LSP (svelteserver)
       vscode-langservers-extracted # html, css, json + eslint servers
       gopls # go LSP
