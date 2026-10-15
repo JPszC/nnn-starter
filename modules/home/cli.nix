@@ -64,7 +64,11 @@ in {
       ps.pandas
       ps.ipykernel
       ps.openpyxl
+      ps.trafilatura # web text extraction CLI (was a `uv tool`)
     ])) # venv is included in Python's standard library
+    uv # was a hand-copied binary in ~/.local/bin
+    ruff # was `nix profile install`ed
+    basedpyright # was `nix profile install`ed
 
     # navigation / files
     eza # alternative listing to lsd, handy for `eza --tree`
@@ -91,6 +95,12 @@ in {
     vopono # run a single app through a VPN netns (`vopono exec`)
     vopono-proton # `vopono-proton firefox` — uses the age-decrypted Proton config
     openvpn # vopono OpenVPN backends (Proton/custom); WireGuard uses wireguard-tools
+  ];
+
+  # Personal scripts (~/bin) and `uv tool` / `pipx`-style installs (~/.local/bin).
+  home.sessionPath = [
+    "$HOME/bin"
+    "$HOME/.local/bin"
   ];
 
   # nh is a nicer frontend for nixos-rebuild + garbage collection. Point it at
