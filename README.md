@@ -202,14 +202,13 @@ OpenLogi has no cache; the first `switch` compiles it (Rust + GPUI). Later
 rebuilds are incremental unless the input moved.
 
 The CachyOS kernel uses the [nix-cachyos-kernel](https://github.com/xddxdd/nix-cachyos-kernel)
-`release` branch with its own nixpkgs pin and the maintainer's Lantian cache.
-For the first rebuild, pass the cache explicitly because the new system's Nix
-settings only take effect after activation:
+`release` branch with its own nixpkgs pin. The maintainer's Lantian binary cache
+is no longer available, so the kernel is compiled from source (ThinLTO, slow).
+It is only rebuilt when the kernel derivation changes, e.g. after updating the
+`nix-cachyos-kernel` flake input:
 
 ```sh
-sudo nixos-rebuild switch --flake .#nnn \
-  --option extra-substituters https://attic.xuyh0120.win/lantian \
-  --option extra-trusted-public-keys 'lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc='
+sudo nixos-rebuild switch --flake .#nnn
 ```
 
 Reboot after rebuilding to run the new kernel. LibreOffice is available after

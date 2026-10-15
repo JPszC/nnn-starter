@@ -25,16 +25,15 @@
   ];
   nix.settings.auto-optimise-store = true;
 
-  # Pull niri, noctalia, and the CachyOS kernel as prebuilt binaries.
+  # Pull niri and noctalia as prebuilt binaries. The CachyOS kernel has no
+  # binary cache (the Lantian attic cache is gone) and is compiled locally.
   nix.settings.extra-substituters = [
     "https://niri.cachix.org"
     "https://noctalia.cachix.org"
-    "https://attic.xuyh0120.win/lantian"
   ];
   nix.settings.extra-trusted-public-keys = [
     "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
     "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
   ];
 
   nix.gc = {
