@@ -9,7 +9,7 @@
 #   agenix -r
 let
   # System key — required so NixOS can decrypt at activation.
-  system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKBCzjz+xqebk/eWLbG2HFHAaWzZCQWnGoqxLvZXlg1d root@jpszc";
+  system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM9NZqXuRrEE5e0TUNrszT3a4KmL4nG9Ce80FzuzrN1W root@iapetus";
 
   # Your user key — required so you can edit secrets without root.
   # From: cat ~/.ssh/id_rsa.pub  (or prefer an ed25519 key if you have one)

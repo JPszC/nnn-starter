@@ -22,6 +22,13 @@ in {
     mode = "0400";
   };
 
+  # The daemon (root) can create ~/.config/vopono root-owned on first run, and
+  # its write helper then fails with EACCES creating locks/ as your user.
+  # `d` also fixes ownership/mode of an already-existing directory.
+  systemd.tmpfiles.rules = [
+    "d /home/${username}/.config/vopono 0755 ${username} users -"
+  ];
+
   systemd.services.vopono = {
     description = "Vopono root daemon";
     after = ["network-online.target"];

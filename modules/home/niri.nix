@@ -76,6 +76,34 @@
       background-color = "#000000";
     };
 
+    # Three fixed workspaces. Named workspaces persist when empty; niri orders
+    # them by attribute name, so the numeric prefix sets the order. (niri still
+    # keeps one extra empty unnamed workspace after them; that is built in.)
+    workspaces = {
+      "01-web".name = "web";
+      "02-orca".name = "orca";
+      "03-code".name = "code";
+    };
+
+    # Pin apps to their workspace, opening full width. App-ids come from `niri msg windows`.
+    window-rules = [
+      {
+        matches = [{app-id = "^zen-beta$";}];
+        open-on-workspace = "web";
+        default-column-width.proportion = 1.0; # full width
+      }
+      {
+        matches = [{app-id = "^orca$";}];
+        open-on-workspace = "orca";
+        default-column-width.proportion = 1.0; # full width
+      }
+      {
+        matches = [{app-id = "^cursor$";}];
+        open-on-workspace = "code";
+        default-column-width.proportion = 1.0; # full width
+      }
+    ];
+
     # Overview ("all desktops"). Default backdrop is #262626.
     overview.backdrop-color = "#000000";
 
