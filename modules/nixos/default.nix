@@ -14,7 +14,7 @@
     ./docker.nix # optional: comment out if you don't want containers
     ./openlogi.nix # optional: comment out if you have no Logitech devices
     ./agenix.nix # age-encrypted secrets (SSH host key decrypts at activation)
-    ./pangolin.nix # Pangolin CLI client; gated by local.pangolin.enable
+    ./netbird.nix # NetBird client; gated by local.netbird.enable
     ./vopono.nix # root daemon for per-app VPN namespaces (`vopono exec`)
   ];
 

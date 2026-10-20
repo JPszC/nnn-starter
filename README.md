@@ -24,7 +24,7 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 | Editor (AI)  | [Cursor](https://cursor.com) — VS Code-based; FHS wrap so extensions work on NixOS |
 | Editor (terminal) | Neovim, preconfigured (LSP, treesitter, telescope, completion); the `$EDITOR` |
 | Browser      | [Zen](https://zen-browser.app) (beta channel, via the community flake) |
-| File manager | [Nautilus](https://apps.gnome.org/Nautilus/) (GNOME Files) |
+| File manager | [Strata](https://github.com/lgse/strata) |
 | Database IDE | DataGrip (JetBrains) |
 | Office suite | LibreOffice |
 | Logitech     | [OpenLogi](https://github.com/AprilNEA/OpenLogi) — HID++ buttons, DPI, SmartShift; no account |
@@ -98,7 +98,7 @@ themes/kanagawa.yaml   # vendored base16 palette (Stylix source of truth)
 | `Mod`+`Return` | Terminal (Alacritty) |
 | `Mod`+`Space` | Noctalia launcher |
 | `Mod`+`B` | Browser (Zen) |
-| `Mod`+`E` | File manager (Nautilus) |
+| `Mod`+`E` | File manager (Strata) |
 | `Mod`+`Q` | Close window |
 | `Mod`+`F` / `Mod`+`Shift`+`F` | Maximize column / fullscreen |
 | `Mod`+`H`/`J`/`K`/`L` | Focus left/down/up/right |
@@ -197,9 +197,6 @@ old series lives on `legacy-v4`. niri uses niri-flake's prebuilt
 These caches are trusted in [`modules/nixos/default.nix`](modules/nixos/default.nix)
 so your machine pulls binaries too. Neither input may `follows` our `nixpkgs` —
 that would rebuild them against a different nixpkgs and miss the cache.
-
-OpenLogi has no cache; the first `switch` compiles it (Rust + GPUI). Later
-rebuilds are incremental unless the input moved.
 
 The CachyOS kernel uses the [nix-cachyos-kernel](https://github.com/xddxdd/nix-cachyos-kernel)
 `release` branch with its own nixpkgs pin. The maintainer's Lantian binary cache

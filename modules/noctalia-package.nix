@@ -22,6 +22,9 @@
 in
   pkgs.runCommand "${upstream.name}-system-glibc" {
     nativeBuildInputs = [pkgs.patchelf];
+    # runCommand drops upstream's meta, so lib.getExe would warn about a
+    # missing meta.mainProgram. The binary is `bin/noctalia`.
+    meta = (upstream.meta or {}) // {mainProgram = "noctalia";};
   } ''
     cp -r ${upstream}/. $out/
     chmod -R u+w $out

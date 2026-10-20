@@ -11,11 +11,18 @@
     pkgs.jetbrains.datagrip
     pkgs.libreoffice-stable
 
-    # Nautilus (GNOME Files): a sensible GTK file manager. Pairs with the gvfs
-    # service enabled in modules/nixos/desktop.nix for trash + mounting, and
-    # backs the browser's "open/save" file picker via the gtk xdg portal.
-    pkgs.nautilus
+    # Strata: keyboard-first GTK4 file manager (built from source, see
+    # modules/strata-package.nix). Pairs with the gvfs service enabled in
+    # modules/nixos/desktop.nix for trash + mounting. The browser's open/save
+    # picker still comes from the gtk xdg portal, not from Strata.
+    (pkgs.callPackage ../strata-package.nix {})
   ];
+
+  # Strata is the default handler for folders.
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications."inode/directory" = "io.github.lgse.Strata.desktop";
+  };
 
   # Zen browser — Firefox-based, from the community flake (beta channel).
   # Managed through the flake's home-manager module (rather than just dropping

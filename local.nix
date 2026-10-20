@@ -36,9 +36,10 @@
     renderDevice = "/dev/dri/by-path/pci-0000:01:00.0-render";
   };
 
-  # Pangolin CLI machine client (modules/nixos/pangolin.nix).
-  # Credentials are NOT here — they live in secrets/pangolin.env.age (agenix).
+  # NetBird client (modules/nixos/netbird.nix).
+  # The setup key is NOT here — it lives in secrets/netbird-setup-key.age (agenix).
   # Set enable = true only after that file exists and secrets.nix has your
-  # host SSH pubkey.
-  pangolin.enable = true;
+  # host SSH pubkey. For self-hosted NetBird also add:
+  #   managementUrl = "https://netbird.example.com:443";
+  netbird.enable = true;
 }

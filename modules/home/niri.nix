@@ -171,7 +171,7 @@
       "Mod+B".action.spawn = "zen-beta"; # browser
       "Mod+C".action.spawn = ["vopono-proton" "cursor"]; #
       "Mod+G".action.spawn = ["vopono-proton" "orca"]; #
-      "Mod+E".action.spawn = "nautilus"; # file manager
+      "Mod+E".action.spawn = "strata"; # file manager
 
       # Window management
       "Mod+Q".action.close-window = {};

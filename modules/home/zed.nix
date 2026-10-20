@@ -5,7 +5,7 @@
 }: {
   # Zed — the GUI code editor. Neovim stays the terminal `$EDITOR`
   # (see modules/home/neovim.nix); Zed is what opens when you double-click a
-  # text file in Nautilus or pick "open with default" from anywhere else.
+  # text file in Strata or pick "open with default" from anywhere else.
   #
   # Stylix's zed target syncs our JetBrains Mono / Noto fonts into Zed. For the
   # colors we don't use Stylix's mechanically-generated "Base16 Kanagawa" — its
@@ -65,7 +65,7 @@
   };
 
   # Upstream's dev.zed.Zed.desktop runs `zeditor %U`, which opens files in the
-  # *existing* Zed workspace. We want Nautilus double-clicks to land in a fresh
+  # *existing* Zed workspace. We want file-manager double-clicks to land in a fresh
   # window, so define our own entry that adds Zed's `--new` flag and point the
   # MIME defaults below at it instead.
   xdg.desktopEntries."zed-new-window" = {
