@@ -1,13 +1,29 @@
 {
+  lib,
   pkgs,
   username,
   ...
 }: let
+  # glibc asks the host nscd before it reads nsswitch.conf. nscd resolves
+  # through systemd-resolved, which tun2proxy points at 198.18.0.0/15. Those
+  # addresses only exist on the host tun, so a name looked up inside the VPN
+  # namespace never reaches the tunnel. Setting LOCALDOMAIN makes glibc skip
+  # nscd and use the namespace resolv.conf. vopono already rewrites that
+  # nsswitch line to "hosts: files dns" and points it at the VPN resolver.
+  # An empty value is enough: glibc only checks that the variable is present,
+  # and it also drops the host search domain so netbird.cloud is not appended.
+  voponoWrapped = pkgs.writeShellScriptBin "vopono" ''
+    if [[ -z ''${LOCALDOMAIN+x} ]]; then
+      export LOCALDOMAIN=
+    fi
+    exec ${lib.getExe pkgs.vopono} "$@"
+  '';
+
   # Runs a command inside a netns using the age-decrypted Proton WireGuard
   # config (`secrets/proton-vpn.conf.age` → /run/agenix/proton-vpn).
   vopono-proton = pkgs.writeShellApplication {
     name = "vopono-proton";
-    runtimeInputs = [pkgs.vopono];
+    runtimeInputs = [voponoWrapped];
     text = ''
       config=/run/agenix/proton-vpn
       if [[ ! -r "$config" ]]; then
@@ -92,7 +108,7 @@ in {
     devenv # per-project dev environments (`use devenv` in .envrc)
     proton-vpn
     wireguard-tools
-    vopono # run a single app through a VPN netns (`vopono exec`)
+    voponoWrapped # `vopono exec`; skips host nscd so VPN DNS is used
     vopono-proton # `vopono-proton firefox` — uses the age-decrypted Proton config
     openvpn # vopono OpenVPN backends (Proton/custom); WireGuard uses wireguard-tools
   ];

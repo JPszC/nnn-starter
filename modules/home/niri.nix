@@ -1,5 +1,14 @@
-{local, ...}: {
+{
+  local,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.niri.settings = {
+    # Steam (and other X11 apps) need an X server; niri has no built-in
+    # XWayland, so it spawns xwayland-satellite on demand and exports DISPLAY.
+    xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+
     # Stylix's niri target sets border/focus-ring colors and the cursor, so we
     # only describe behaviour here.
 

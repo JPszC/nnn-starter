@@ -12,9 +12,11 @@
     ./stylix.nix
     ./users.nix
     ./docker.nix # optional: comment out if you don't want containers
+    ./steam.nix # optional: comment out if you don't want Steam
     ./openlogi.nix # optional: comment out if you have no Logitech devices
     ./agenix.nix # age-encrypted secrets (SSH host key decrypts at activation)
     ./netbird.nix # NetBird client; gated by local.netbird.enable
+    ./tun2proxy.nix # full-tunnel proxy; gated by local.tun2proxy.enable
     ./vopono.nix # root daemon for per-app VPN namespaces (`vopono exec`)
   ];
 

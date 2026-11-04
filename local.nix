@@ -42,4 +42,14 @@
   # host SSH pubkey. For self-hosted NetBird also add:
   #   managementUrl = "https://netbird.example.com:443";
   netbird.enable = true;
+
+  # Send public traffic through tun2proxy (modules/nixos/tun2proxy.nix).
+  # The proxy URL is NOT here — one line in secrets/tun2proxy-proxy.age:
+  #   socks5://user:pass@host:port
+  # git add that file (Nix only sees tracked files). Private ranges and
+  # NetBird stay off the tunnel. Optional extra CIDRs that stay direct:
+  #   extraBypass = [ "203.0.113.10/32" ];
+  # tun stop | tun start | tun restart
+  # stop tears the tunnel down immediately and points DNS back at the LAN.
+  tun2proxy.enable = true;
 }

@@ -17,6 +17,10 @@
         "gtk"
       ];
       "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
+      # The gnome backend's FileChooser just delegates to Nautilus
+      # (org.gnome.Nautilus), which we no longer install — so pickers fail
+      # with "The name is not activatable". Use the GTK picker instead.
+      "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
     };
   };
 

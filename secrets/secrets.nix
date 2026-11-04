@@ -1,6 +1,7 @@
 # Used ONLY by the `agenix` CLI (not imported into NixOS).
 # From secrets/:  agenix -e netbird-setup-key.age
 #                 agenix -e proton-vpn.conf.age
+#                 agenix -e tun2proxy-proxy.age
 #
 # After first boot with openssh enabled, paste the host pubkey:
 #   cat /etc/ssh/ssh_host_ed25519_key.pub
@@ -23,6 +24,14 @@ in {
   # Proton VPN WireGuard config from account.protonvpn.com → Downloads.
   # Paste the downloaded .conf into the editor, then git-add the .age file.
   "proton-vpn.conf.age".publicKeys = [
+    system
+    user
+  ];
+
+  # One line, no quotes: socks5://user:pass@host:port
+  # Percent-encode extra @ or : in the username or password.
+  # `git add` the .age file; the tunnel stays off until Nix can see it.
+  "tun2proxy-proxy.age".publicKeys = [
     system
     user
   ];
