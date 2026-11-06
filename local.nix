@@ -51,5 +51,5 @@
   #   extraBypass = [ "203.0.113.10/32" ];
   # tun stop | tun start | tun restart
   # stop tears the tunnel down immediately and points DNS back at the LAN.
-  tun2proxy.enable = true;
+  tun2proxy.enable = false;
 }
