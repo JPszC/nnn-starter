@@ -42,15 +42,6 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    # OpenLogi (Logitech HID++ companion). Not reliably in nixpkgs on Linux yet,
-    # so we take the upstream flake's package + NixOS module (udev + agent).
-    # Follow our nixpkgs so the GUI links against the same Wayland/Vulkan as
-    # the rest of the desktop.
-    openlogi = {
-      url = "github:AprilNEA/OpenLogi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # OMP (oh-my-pi) coding-agent CLI. Do not follow our nixpkgs: the package
     # is built against this flake's own pin (Bun + Rust natives).
     omp.url = "github:can1357/oh-my-pi";
@@ -59,9 +50,6 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-      # We only use the NixOS module + Linux CLI; skip unused nested inputs.
-      inputs.darwin.follows = "";
-      inputs.home-manager.follows = "";
     };
   };
 
@@ -71,7 +59,6 @@
     niri,
     noctalia,
     stylix,
-    openlogi,
     agenix,
     ...
   } @ inputs: let
@@ -103,7 +90,6 @@
         niri.nixosModules.niri
         noctalia.nixosModules.default
         stylix.nixosModules.stylix
-        openlogi.nixosModules.default
         agenix.nixosModules.default
         home-manager.nixosModules.home-manager
 
