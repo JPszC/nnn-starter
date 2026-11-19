@@ -105,6 +105,24 @@
           nixpkgs.overlays = [
             niri.overlays.niri
             noctalia.overlays.default
+            # cargo's setup hook exports ZSTD_SYS_USE_PKG_CONFIG and
+            # AWS_LC_SYS_USE_SYSTEM. vopono 1.0.1 pulls both crates in
+            # (zip → zstd, quinn → aws-lc-rs) but its nixpkgs expression
+            # has an empty buildInputs, so zstd-sys panics looking for
+            # pkg-config. Same workaround as modules/home/codex.nix.
+            (
+              _: prev: {
+                vopono = prev.vopono.overrideAttrs (old: {
+                  nativeBuildInputs = (old.nativeBuildInputs or []) ++ [prev.pkg-config];
+                  buildInputs =
+                    (old.buildInputs or [])
+                    ++ [
+                      prev.aws-lc
+                      prev.zstd
+                    ];
+                });
+              }
+            )
           ];
 
           home-manager.useGlobalPkgs = true;

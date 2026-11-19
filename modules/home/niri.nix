@@ -181,6 +181,7 @@
       "Mod+C".action.spawn = ["vopono-proton" "cursor"]; #
       "Mod+G".action.spawn = ["vopono-proton" "orca"]; #
       "Mod+E".action.spawn = "strata"; # file manager
+      "Mod+N".action.spawn = "obsidian"; # notes
 
       # Window management
       "Mod+Q".action.close-window = {};

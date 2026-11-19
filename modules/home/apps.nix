@@ -10,6 +10,7 @@
   home.packages = [
     pkgs.jetbrains.datagrip
     pkgs.libreoffice-stable
+    pkgs.obsidian
 
     # Strata: keyboard-first GTK4 file manager (built from source, see
     # modules/strata-package.nix). Pairs with the gvfs service enabled in

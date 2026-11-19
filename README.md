@@ -27,8 +27,9 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 | File manager | [Strata](https://github.com/lgse/strata) |
 | Database IDE | DataGrip (JetBrains) |
 | Office suite | LibreOffice |
+| Notes        | [Obsidian](https://obsidian.md) — `Super+N` |
 | Logitech     | [OpenLogi](https://github.com/AprilNEA/OpenLogi) — HID++ buttons, DPI, SmartShift; no account |
-| Font         | Maple Mono NF |
+| Fonts        | JetBrains Mono Nerd Font (default monospace), Fira Code, Iosevka |
 | Login        | greetd + tuigreet → niri session |
 
 ### Modern command-line toolset
