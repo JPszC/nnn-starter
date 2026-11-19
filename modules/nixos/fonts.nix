@@ -3,7 +3,7 @@
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono # JetBrains Mono, patched with Nerd Font glyphs.
       fira-code
-      iosevka
+      nerd-fonts.iosevka
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji

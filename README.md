@@ -29,7 +29,7 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 | Office suite | LibreOffice |
 | Notes        | [Obsidian](https://obsidian.md) — `Super+N` |
 | Logitech     | [OpenLogi](https://github.com/AprilNEA/OpenLogi) — HID++ buttons, DPI, SmartShift; no account |
-| Fonts        | JetBrains Mono Nerd Font (default monospace), Fira Code, Iosevka |
+| Fonts        | JetBrains Mono Nerd Font (default monospace), Fira Code, Iosevka Nerd Font |
 | Login        | greetd + tuigreet → niri session |
 
 ### Modern command-line toolset
