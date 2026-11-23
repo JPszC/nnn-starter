@@ -207,10 +207,11 @@ sudo passwd root && ip a && lsblk   # IP for below; disk must match hosts/rhea/d
 nix run github:nix-community/nixos-anywhere -- --flake .#rhea root@<vps-ip>
 ```
 
-Unmount the ISO in the panel, then deploy changes with:
+Unmount the ISO in the panel, then deploy changes from this machine with
+(`-H` is required: nh otherwise treats the IP as the hostname):
 
 ```sh
-nixos-rebuild switch --flake .#rhea --target-host root@<vps-ip>
+nh os switch . -H rhea --target-host root@<vps-ip>
 ```
 
 ### Binary caches (no source builds)

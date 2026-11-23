@@ -1,6 +1,9 @@
-{modulesPath, ...}: {
+{modulesPath, ...}: let
+  # Same key as `user` in secrets/secrets.nix.
+  sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6rcJI/Qs1aVnk6ShIcfm5lhj2t8kS9r84skhaMRhBHzxTJlzs2gFhAtH1dKtERBGOHiM5ca9N6LFNRWQ44XHnei1CzSkIy7L+ZEFAbx+BfMUIo7AKU5b7fE+yuJy/kXJo+giP9ROxNdHwLNpCgW28Mn2y395YIHj92u9bcJeofyUx55KL/fuvDkPP3Q7Hx2EFYnrz4m43D+g3l5/sitTLzOmzl7GhL2rZ/WgAmOoVEqY99UldvwkMDhiqo6oNhEQ1acsnfD09ZROUxoii8a7k9PDUnDe1+CkkAmyr6ea9hLXUZHbCieRX8QfeRztIC+AjNDxVW3dvh5OOb6Fa7Mzs3Ll621bq1SZUTf2GI1lkkWeWu8GfmU1hlFqwK8iEFF9JmoL+urWTiz2jG4V5duSJRml0WywhJBiE5NzHCUEqAXNa2Qa2hYSGwE2T5FXXbUooPq5PucloaiKATEXAgvNw2h9yxfnPxWjRtKi4nT97V/IRK5m9LWcxgXfR4UWiK6M= user@DESKTOP-8PN5EV6";
+in {
   # rhea — headless VPS for self-hosted services. Install from the NixOS ISO
-  # with nixos-anywhere, then deploy with `nixos-rebuild --target-host` (README).
+  # with nixos-anywhere, then deploy with `nh os switch --target-host` (README).
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix") # virtio disk/net drivers in initrd
     ./disko.nix
@@ -37,10 +40,16 @@
       PermitRootLogin = "prohibit-password";
     };
   };
-  # Same key as `user` in secrets/secrets.nix.
-  users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6rcJI/Qs1aVnk6ShIcfm5lhj2t8kS9r84skhaMRhBHzxTJlzs2gFhAtH1dKtERBGOHiM5ca9N6LFNRWQ44XHnei1CzSkIy7L+ZEFAbx+BfMUIo7AKU5b7fE+yuJy/kXJo+giP9ROxNdHwLNpCgW28Mn2y395YIHj92u9bcJeofyUx55KL/fuvDkPP3Q7Hx2EFYnrz4m43D+g3l5/sitTLzOmzl7GhL2rZ/WgAmOoVEqY99UldvwkMDhiqo6oNhEQ1acsnfD09ZROUxoii8a7k9PDUnDe1+CkkAmyr6ea9hLXUZHbCieRX8QfeRztIC+AjNDxVW3dvh5OOb6Fa7Mzs3Ll621bq1SZUTf2GI1lkkWeWu8GfmU1hlFqwK8iEFF9JmoL+urWTiz2jG4V5duSJRml0WywhJBiE5NzHCUEqAXNa2Qa2hYSGwE2T5FXXbUooPq5PucloaiKATEXAgvNw2h9yxfnPxWjRtKi4nT97V/IRK5m9LWcxgXfR4UWiK6M= user@DESKTOP-8PN5EV6"
-  ];
+  users.users.root.openssh.authorizedKeys.keys = [sshKey];
+
+  # Day-to-day login. No password exists, so sudo can't prompt for one;
+  # SSH-key access already equals root here, as on the desktop (users.nix).
+  users.users.jpereira = {
+    isNormalUser = true;
+    extraGroups = ["wheel"];
+    openssh.authorizedKeys.keys = [sshKey];
+  };
+  security.sudo.wheelNeedsPassword = false;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -51,6 +60,13 @@
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 7d";
+  };
+
+  # `nh os switch` on rhea builds the pushed config from GitHub (selects
+  # nixosConfigurations.rhea by hostname). Cleanup stays with nix.gc above.
+  programs.nh = {
+    enable = true;
+    flake = "github:jpszc/nnn-starter";
   };
 
   # The release this host was installed with. Do NOT bump casually.
