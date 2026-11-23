@@ -121,6 +121,10 @@ stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml
 
 …or edit `themes/kanagawa.yaml` directly.
 
+The pinned Stylix still tries to theme Wayprompt, which Home Manager removed.
+Keep the Wayprompt target disabled in `modules/home/default.nix` until Stylix
+drops it. GPG passphrase prompts use `pinentry-qt`.
+
 ## Per-project dev environments
 
 Python 3, pip, venv, pandas, ipykernel, and openpyxl are available in the user

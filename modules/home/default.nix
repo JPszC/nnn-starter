@@ -26,5 +26,8 @@
   # Match system.stateVersion in hosts/nnn/default.nix. Don't bump casually.
   home.stateVersion = "25.05";
 
+  # Home Manager removed Wayprompt; the pinned Stylix still configures it.
+  stylix.targets.wayprompt.enable = false;
+
   programs.home-manager.enable = true;
 }
