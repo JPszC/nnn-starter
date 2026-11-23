@@ -7,7 +7,7 @@
   # agents. Upstream ships a Linux AppImage; this is not GNOME Orca.
   #
   # The launcher is `orca`. Agent CLIs already on the session PATH (claude,
-  # codex, cursor, omp) stay visible: the FHS wrapper prepends its own bins
+  # codex, agy, cursor, omp) stay visible: the FHS wrapper prepends its own bins
   # and keeps the inherited PATH. Auth and project state stay runtime-managed.
   #
   # /boot can be an autofs mount that bubblewrap cannot bind inside vopono's

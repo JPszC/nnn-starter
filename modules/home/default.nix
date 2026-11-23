@@ -13,6 +13,7 @@
     ./direnv.nix
     ./claude-code.nix
     ./codex.nix
+    ./antigravity-cli.nix
     ./omp.nix
     ./orca.nix
     ./apps.nix

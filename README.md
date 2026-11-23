@@ -37,7 +37,8 @@ run one command, and get a cohesive, themed, developer-ready Wayland desktop.
 `dust` · `duf` · `procs` · `bandwhich` · `gping` · `zellij` ·
 `tealdeer` · `jq` · `yq` · `lazygit` · `delta` · `gh` · `direnv` + `nix-direnv` ·
 `nh` · `nom` · `claude` ([Claude Code](https://github.com/anthropics/claude-code)) ·
-`codex` · `omp` ([oh-my-pi](https://github.com/can1357/oh-my-pi)).
+`codex` · `agy` ([Antigravity CLI](https://antigravity.google/product/antigravity-cli)) ·
+`omp` ([oh-my-pi](https://github.com/can1357/oh-my-pi)).
 Old names are aliased to the new tools (`ls`→`lsd`, `cat`→`bat`,
 `cd`→`zoxide`, `top`→`btop`, …).
 
@@ -61,6 +62,10 @@ sudo nixos-rebuild switch --flake .#nnn
 
 After the first build, rebuild with `nh os switch` (aliased to `rebuild`) or
 `update` (which also bumps `flake.lock`).
+
+For updates that change the kernel or NVIDIA driver, use `nh os boot --update`
+and reboot. A live switch can start new NVIDIA userspace against the old
+kernel module, causing `nvidia-persistenced` to fail with an API mismatch.
 
 ## Placeholders to edit
 
@@ -210,8 +215,7 @@ It is only rebuilt when the kernel derivation changes, e.g. after updating the
 `nix-cachyos-kernel` flake input:
 
 ```sh
-sudo nixos-rebuild switch --flake .#nnn
+nh os boot .#nnn
 ```
 
-Reboot after rebuilding to run the new kernel. LibreOffice is available after
-the switch without a reboot.
+Reboot to load the new kernel and its matching NVIDIA driver.
