@@ -156,6 +156,7 @@
           system = hostSystem;
           modules = [
             disko.nixosModules.disko
+            agenix.nixosModules.default
             ./hosts/rhea
           ];
         };

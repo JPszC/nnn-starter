@@ -1,4 +1,8 @@
-{modulesPath, ...}: let
+{
+  config,
+  modulesPath,
+  ...
+}: let
   # Same key as `user` in secrets/secrets.nix.
   sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6rcJI/Qs1aVnk6ShIcfm5lhj2t8kS9r84skhaMRhBHzxTJlzs2gFhAtH1dKtERBGOHiM5ca9N6LFNRWQ44XHnei1CzSkIy7L+ZEFAbx+BfMUIo7AKU5b7fE+yuJy/kXJo+giP9ROxNdHwLNpCgW28Mn2y395YIHj92u9bcJeofyUx55KL/fuvDkPP3Q7Hx2EFYnrz4m43D+g3l5/sitTLzOmzl7GhL2rZ/WgAmOoVEqY99UldvwkMDhiqo6oNhEQ1acsnfD09ZROUxoii8a7k9PDUnDe1+CkkAmyr6ea9hLXUZHbCieRX8QfeRztIC+AjNDxVW3dvh5OOb6Fa7Mzs3Ll621bq1SZUTf2GI1lkkWeWu8GfmU1hlFqwK8iEFF9JmoL+urWTiz2jG4V5duSJRml0WywhJBiE5NzHCUEqAXNa2Qa2hYSGwE2T5FXXbUooPq5PucloaiKATEXAgvNw2h9yxfnPxWjRtKi4nT97V/IRK5m9LWcxgXfR4UWiK6M= user@DESKTOP-8PN5EV6";
 in {
@@ -29,6 +33,30 @@ in {
       "1.1.1.1"
       "9.9.9.9"
     ];
+
+    # Public side: SSH (opened by openssh) and NetBird's WireGuard UDP port
+    # (opened by openFirewall below), nothing else, not even ping. Peers
+    # reaching rhea over NetBird are trusted; NetBird's own ACLs gate them.
+    firewall = {
+      enable = true;
+      allowPing = false;
+      trustedInterfaces = [config.services.netbird.clients.netbird.interface];
+    };
+  };
+
+  # Same setup key as the desktop; decrypted with rhea's SSH host key
+  # (secrets/secrets.nix lists it as a recipient).
+  age.secrets.netbird-setup-key.file = ../../secrets/netbird-setup-key.age;
+
+  # Mirrors modules/nixos/netbird.nix, which reads local.nix and so isn't shared.
+  services.netbird.clients.netbird = {
+    port = 51820;
+    autoStart = true;
+    openFirewall = true;
+    login = {
+      enable = true;
+      setupKeyFile = config.age.secrets.netbird-setup-key.path;
+    };
   };
 
   # Root over SSH with keys only; deploys run as root@rhea.
@@ -46,7 +74,11 @@ in {
   # SSH-key access already equals root here, as on the desktop (users.nix).
   users.users.jpereira = {
     isNormalUser = true;
-    extraGroups = ["wheel"];
+    # netbird group: run `netbird status` without sudo (hardened daemon socket).
+    extraGroups = [
+      "wheel"
+      config.services.netbird.clients.netbird.user.group
+    ];
     openssh.authorizedKeys.keys = [sshKey];
   };
   security.sudo.wheelNeedsPassword = false;

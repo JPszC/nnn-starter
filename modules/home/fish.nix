@@ -38,6 +38,7 @@
       # nh-powered rebuilds from anywhere.
       rebuild = "nh os switch";
       update = "nh os switch --update";
+      update-rhea = "nh os switch -H rhea --target-host root@23.252.124.173";
     };
 
     # Tide renders each prompt in `fish -c` (non-interactive). Globals set
