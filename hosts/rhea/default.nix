@@ -80,8 +80,6 @@ in {
     enable = true;
     environmentFile = config.age.secrets.linkwarden-env.path;
     environment.NEXTAUTH_URL = "https://link.jpszc.com/api/v1/auth";
-    # shortcut: open only until the first account exists; set false after signing up.
-    enableRegistration = true;
   };
 
   # Root over SSH with keys only; deploys run as root@rhea.
