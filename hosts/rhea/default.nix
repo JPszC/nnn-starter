@@ -59,6 +59,18 @@ in {
     };
   };
 
+  # Pangolin site (pango.jpszc.com). newt dials out, so no firewall port opens.
+  # NEWT_ID / NEWT_SECRET come from the agenix env file, not the Nix store.
+  age.secrets.newt-env.file = ../../secrets/newt.env.age;
+  services.newt = {
+    enable = true;
+    settings = {
+      endpoint = "https://pango.jpszc.com";
+      disable-ssh = true;
+    };
+    environmentFile = config.age.secrets.newt-env.path;
+  };
+
   # Root over SSH with keys only; deploys run as root@rhea.
   services.openssh = {
     enable = true;
