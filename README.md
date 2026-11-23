@@ -214,7 +214,7 @@ Unmount the ISO in the panel, then deploy changes from this machine with
 (`-H` is required: nh otherwise treats the IP as the hostname):
 
 ```sh
-nh os switch . -H rhea --target-host root@<vps-ip>
+nh os switch . -H rhea --target-host root@<vps-ip> --use-substitutes
 ```
 
 ### Binary caches (no source builds)

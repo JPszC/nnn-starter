@@ -33,6 +33,12 @@ in {
     rhea
   ];
 
+  # Linkwarden auth secret for rhea, one line: NEXTAUTH_SECRET=…
+  "linkwarden.env.age".publicKeys = [
+    user
+    rhea
+  ];
+
   # Proton VPN WireGuard config from account.protonvpn.com → Downloads.
   # Paste the downloaded .conf into the editor, then git-add the .age file.
   "proton-vpn.conf.age".publicKeys = [

@@ -71,6 +71,19 @@ in {
     environmentFile = config.age.secrets.newt-env.path;
   };
 
+  # Linkwarden bookmarks with local Postgres (Unix socket, no password).
+  # Public via Pangolin: resource link.jpszc.com → localhost:3000 on site rhea.
+  # Linkwarden binds "localhost" as [::1], which is also what newt dials.
+  # NEXTAUTH_SECRET comes from the agenix env file.
+  age.secrets.linkwarden-env.file = ../../secrets/linkwarden.env.age;
+  services.linkwarden = {
+    enable = true;
+    environmentFile = config.age.secrets.linkwarden-env.path;
+    environment.NEXTAUTH_URL = "https://link.jpszc.com/api/v1/auth";
+    # shortcut: open only until the first account exists; set false after signing up.
+    enableRegistration = true;
+  };
+
   # Root over SSH with keys only; deploys run as root@rhea.
   services.openssh = {
     enable = true;
