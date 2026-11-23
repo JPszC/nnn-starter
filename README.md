@@ -89,9 +89,10 @@ values never get staged or committed.
 ## Layout
 
 ```
-flake.nix              # inputs + the single `nixosConfigurations.nnn`
+flake.nix              # inputs + `nixosConfigurations.nnn` (desktop) and `.rhea` (VPS)
 local.nix              # your machine-local identity (skip-worktree)
 hosts/nnn/             # host: hardware + locale/timezone
+hosts/rhea/            # headless VPS: disko layout, SSH, nix gc
 modules/nixos/         # system: boot, audio, niri, noctalia, stylix, users, OpenLogi…
 modules/home/          # user: fish, alacritty, neovim, zed, cursor, niri keybinds, cli tools…
 themes/kanagawa.yaml   # vendored base16 palette (Stylix source of truth)
@@ -190,9 +191,27 @@ and PR:
 
 - Secrets: add [sops-nix](https://github.com/Mic92/sops-nix) or
   [agenix](https://github.com/ryantm/agenix).
-- Declarative disks: add [disko](https://github.com/nix-community/disko).
-- Multi-host: factor `hosts/` into one folder per machine and add more
-  `nixosConfigurations` entries.
+- Desktop disks: rhea uses [disko](https://github.com/nix-community/disko);
+  `hosts/nnn` still uses a generated hardware-configuration.nix.
+
+### rhea (VPS)
+
+Legacy-BIOS QEMU guest (SeaBIOS): GPT + 1M BIOS-boot partition + ext4 root,
+GRUB, root SSH by key only. First install wipes the disk:
+
+```sh
+# Panel: mount the NixOS minimal ISO and boot it. In the VNC console:
+sudo passwd root && ip a && lsblk   # IP for below; disk must match hosts/rhea/disko.nix
+
+# From this machine:
+nix run github:nix-community/nixos-anywhere -- --flake .#rhea root@<vps-ip>
+```
+
+Unmount the ISO in the panel, then deploy changes with:
+
+```sh
+nixos-rebuild switch --flake .#rhea --target-host root@<vps-ip>
+```
 
 ### Binary caches (no source builds)
 

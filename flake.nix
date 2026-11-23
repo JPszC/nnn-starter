@@ -51,6 +51,12 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Declarative partitioning for the rhea VPS (used by nixos-anywhere).
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -60,6 +66,7 @@
     noctalia,
     stylix,
     agenix,
+    disko,
     ...
   } @ inputs: let
     # The platform the NNN machine runs on.
@@ -142,7 +149,17 @@
     };
   in {
     nixosConfigurations =
-      {nnn = nixosSystem;}
+      {
+        nnn = nixosSystem;
+        # Headless VPS (hosts/rhea). Shares nothing with the desktop modules.
+        rhea = nixpkgs.lib.nixosSystem {
+          system = hostSystem;
+          modules = [
+            disko.nixosModules.disko
+            ./hosts/rhea
+          ];
+        };
+      }
       // nixpkgs.lib.optionalAttrs (local.hostName != "nnn") {
         ${local.hostName} = nixosSystem;
       };
