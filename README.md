@@ -127,9 +127,7 @@ stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml
 
 …or edit `themes/kanagawa.yaml` directly.
 
-The pinned Stylix still tries to theme Wayprompt, which Home Manager removed.
-Keep the Wayprompt target disabled in `modules/home/default.nix` until Stylix
-drops it. GPG passphrase prompts use `pinentry-qt`.
+GPG passphrase prompts use `pinentry-qt`.
 
 ## Per-project dev environments
 
@@ -199,8 +197,14 @@ and PR:
 Legacy-BIOS QEMU guest (SeaBIOS): GPT + 1M BIOS-boot partition + ext4 root,
 GRUB, root SSH by key only. Firewall (NixOS `networking.firewall`; nixpkgs has
 no ufw): public SSH 22/tcp and NetBird 51820/udp only, no ping; NetBird peers
-are trusted. NetBird reuses `secrets/netbird-setup-key.age`, encrypted to
-rhea's host key too. First install wipes the disk:
+are trusted. Accepted (public) and refused connections go to the kernel log;
+`fw-report [1h|24h|7d]` on rhea (or `rhea-fw` from the desktop) shows open vs
+closed ports, live connections, and those counts. CrowdSec (`hosts/rhea/crowdsec.nix`)
+watches sshd, pulls the community blocklist, and bans via the iptables bouncer
+(bouncer drops are not in the refused log); its web UI runs as a podman
+container on :3001, NetBird/localhost only. NetBird reuses
+`secrets/netbird-setup-key.age`, encrypted to rhea's host key too. First
+install wipes the disk:
 
 ```sh
 # Panel: mount the NixOS minimal ISO and boot it. In the VNC console:

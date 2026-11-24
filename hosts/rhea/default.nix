@@ -11,6 +11,8 @@ in {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix") # virtio disk/net drivers in initrd
     ./disko.nix
+    ./fw-report.nix
+    ./crowdsec.nix
   ];
 
   networking.hostName = "rhea";

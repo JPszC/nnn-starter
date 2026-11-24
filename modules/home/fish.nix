@@ -39,7 +39,9 @@
       rebuild = "nh os switch";
       update = "nh os switch --update";
       # --use-substitutes: rhea fetches from cache.nixos.org instead of an upload from here.
-      update-rhea = "nh os switch -H rhea --target-host root@23.252.124.173 --use-substitutes";
+      rhea-update = "nh os switch -H rhea --target-host root@23.252.124.173 --use-substitutes";
+      # Firewall/port/connection report on rhea; optional window: `rhea-fw 24h`.
+      rhea-fw = "ssh -t jpereira@23.252.124.173 fw-report";
     };
 
     # Tide renders each prompt in `fish -c` (non-interactive). Globals set
